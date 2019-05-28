@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MoneyTracker</string>
+
+    <!-- AddItem strings-->
+    <string name="add_item_title">New item</string>
+    <string name="add_item_name_hint">Name</string>
+    <string name="add_item_price_hint">0₽</string>
+</resources>
