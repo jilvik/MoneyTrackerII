@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 class Record {
 
-    private final String NAME;
-    private final int PRICE;
+    private final String name;
+    private final int price;
     private String comment;
 }
