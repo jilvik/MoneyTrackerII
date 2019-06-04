@@ -1,5 +1,9 @@
 <resources>
+    <!-- Main's strings-->
     <string name="app_name">MoneyTracker</string>
+    <string name="expenses">Expense</string>
+    <string name="income">Income</string>
+    <string name="balance">Balance</string>
 
     <!-- AddItem's strings-->
     <string name="add_item_title">New item</string>
@@ -8,5 +12,14 @@
 
     <!-- Budget's strings-->
     <string name="budget_title">Budget</string>
+    <string name="tab_income">Income</string>
+    <string name="tab_expense">Expense</string>
+    <string name="tab_balance">Balance</string>
+
+    <string-array name="tab_title">
+        <item>@string/tab_income</item>
+        <item>@string/tab_expense</item>
+        <item>@string/tab_balance</item>
+    </string-array>
 
 </resources>

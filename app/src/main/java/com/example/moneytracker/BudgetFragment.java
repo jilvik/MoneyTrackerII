@@ -14,13 +14,35 @@ import android.view.ViewGroup;
 
 public class BudgetFragment extends Fragment {
 
+    static final int TYPE_INCOME = 1;
+    static final int TYPE_EXPENSE = 2;
+    static final int TYPE_BUDGET = 3;
+    private static final String TYPE_KEY = "type";
+    private static final int TYPE_UNKNOWN = -1;
     private static final int VERTICAL_SPACE = 32;
     private BudgetAdapter adapter;
+
+    static BudgetFragment createBudgetFragment(int type) {
+        BudgetFragment fragment = new BudgetFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(BudgetFragment.TYPE_KEY, BudgetFragment.TYPE_INCOME);
+
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new BudgetAdapter();
+
+        Bundle bundle = getArguments();
+        int type = bundle.getInt(TYPE_KEY, TYPE_UNKNOWN);
+
+        if (type == TYPE_UNKNOWN) {
+            throw new IllegalArgumentException("UNKNOWN TYPE!");
+        }
     }
 
     @Nullable
@@ -36,29 +58,9 @@ public class BudgetFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         RecyclerView recycler = view.findViewById(R.id.list);
 
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        recycler.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_SPACE));
         recycler.setAdapter(adapter);
-    }
-
-    private class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
-
-        private final int spaceHeight;
-
-        private VerticalSpaceItemDecoration(int spaceHeight) {
-            this.spaceHeight = spaceHeight;
-        }
-
-        @Override
-        public void getItemOffsets(@NonNull Rect outRect,
-                                   @NonNull View view,
-                                   @NonNull RecyclerView parent,
-                                   @NonNull RecyclerView.State state) {
-            outRect.top = spaceHeight / 2;
-            outRect.bottom = spaceHeight / 2;
-        }
     }
 }
