@@ -7,7 +7,13 @@ import lombok.RequiredArgsConstructor;
 @Getter
 class Record {
 
-    private final String name;
-    private final int price;
-    private String comment;
+    public static final String TYPE_UNKNOWN = "unknown";
+    public static final String TYPE_INCOME = "incomes";
+    public static final String TYPE_EXPENSE = "expenses";
+    public static final String TYPE_BUDGET = "budget";
+
+    private int id;
+    private String name;
+    private int price;
+    private String type;
 }

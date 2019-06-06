@@ -1,6 +1,5 @@
 package com.example.moneytracker;
 
-import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,23 +9,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import java.util.List;
 
 
 public class BudgetFragment extends Fragment {
 
-    static final int TYPE_INCOME = 1;
-    static final int TYPE_EXPENSE = 2;
-    static final int TYPE_BUDGET = 3;
     private static final String TYPE_KEY = "type";
-    private static final int TYPE_UNKNOWN = -1;
-    private static final int VERTICAL_SPACE = 32;
     private BudgetAdapter adapter;
+    private Api api;
+    private String type;
 
-    static BudgetFragment createBudgetFragment(int type) {
+    static BudgetFragment createBudgetFragment(String type) {
         BudgetFragment fragment = new BudgetFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putInt(BudgetFragment.TYPE_KEY, BudgetFragment.TYPE_INCOME);
+        bundle.putString(BudgetFragment.TYPE_KEY, type);
 
         fragment.setArguments(bundle);
         return fragment;
@@ -38,11 +39,13 @@ public class BudgetFragment extends Fragment {
         adapter = new BudgetAdapter();
 
         Bundle bundle = getArguments();
-        int type = bundle.getInt(TYPE_KEY, TYPE_UNKNOWN);
+        type = bundle.getString(TYPE_KEY, Record.TYPE_EXPENSE);
 
-        if (type == TYPE_UNKNOWN) {
+        if (type.equals(Record.TYPE_UNKNOWN)) {
             throw new IllegalArgumentException("UNKNOWN TYPE!");
         }
+
+        api = ((App) getActivity().getApplication()).getApi();
     }
 
     @Nullable
@@ -62,5 +65,23 @@ public class BudgetFragment extends Fragment {
 
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
+
+        loadItems();
+    }
+
+    private void loadItems() {
+        Call<List<Record>> call = api.getItems(type);
+
+        call.enqueue(new Callback<List<Record>>() {
+            @Override
+            public void onResponse(Call<List<Record>> call, Response<List<Record>> response) {
+                adapter.setData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Record>> call, Throwable t) {
+
+            }
+        });
     }
 }

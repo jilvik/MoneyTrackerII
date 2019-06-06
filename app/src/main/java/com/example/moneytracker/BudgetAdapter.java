@@ -14,8 +14,9 @@ class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.RecordViewHolder>
 
     private List<Record> data = new ArrayList<>();
 
-    BudgetAdapter() {
-        createData();
+    public void setData(List<Record> data) {
+        this.data = data;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -55,20 +56,6 @@ class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.RecordViewHolder>
         }
     }
 
-    private void createData() {
-        data.add(new Record("Milk", 53));
-        data.add(new Record("Soap", 100));
-        data.add(new Record("ToothPaste", 300));
-        data.add(new Record("bread", 20));
-        data.add(new Record("Any very long record", 1000000000));
-        data.add(new Record("Chocolate", 65));
-        data.add(new Record("Pizza", 400));
-        data.add(new Record("Cafe", 1500));
-        data.add(new Record("Rocket", 900));
-        data.add(new Record("Course", 1400));
-        data.add(new Record("Tea", 50));
-        data.add(new Record("Coffee", 700));
-    }
 }
 
 

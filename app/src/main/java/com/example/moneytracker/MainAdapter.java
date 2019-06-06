@@ -24,13 +24,13 @@ public class MainAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case PAGE_INCOMES:
-                return BudgetFragment.createBudgetFragment(BudgetFragment.TYPE_INCOME);
+                return BudgetFragment.createBudgetFragment(Record.TYPE_INCOME);
 
             case PAGE_EXPENSES:
-                return BudgetFragment.createBudgetFragment(BudgetFragment.TYPE_EXPENSE);
+                return BudgetFragment.createBudgetFragment(Record.TYPE_EXPENSE);
 
             case PAGE_BALANCE:
-                return BudgetFragment.createBudgetFragment(BudgetFragment.TYPE_BUDGET);
+                return BudgetFragment.createBudgetFragment(Record.TYPE_BUDGET);
 
             default:
                 return null;
