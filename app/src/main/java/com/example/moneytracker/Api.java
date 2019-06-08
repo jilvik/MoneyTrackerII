@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface Api {
 
-    @GET("/items")
+    @GET("items")
     Call<List<Record>> getItems(@Query("type") String type);
 }

@@ -5,12 +5,24 @@
         android:background="@drawable/bg_pattern"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".AddItemActivity">
+        tools:context=".AddItemActivity"
+        android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:id="@+id/add_item_tool_bar"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:elevation="8dp"
+            android:layout_height="?android:attr/actionBarSize">
+
+    </android.support.v7.widget.Toolbar>
     
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="68dp"
             android:background="@color/oneItemColor"
+            android:elevation="4dp"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 

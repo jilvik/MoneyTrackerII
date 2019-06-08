@@ -1,7 +1,9 @@
 package com.example.moneytracker;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -11,19 +13,27 @@ import android.widget.EditText;
 
 public class AddItemActivity extends AppCompatActivity {
 
+    public static final String TYPE_KEY = "type";
+
     private EditText newName;
     private EditText newPrice;
     private Button addButton;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
-        setTitle(R.string.add_item_title);
+        Toolbar toolbar = findViewById(R.id.add_item_tool_bar);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.add_item_title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         newName = findViewById(R.id.new_name);
         newPrice = findViewById(R.id.new_price);
         addButton = findViewById(R.id.add_button);
+        type = getIntent().getStringExtra(TYPE_KEY);
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -55,6 +65,14 @@ public class AddItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String name = newName.getText().toString();
                 String price = newPrice.getText().toString();
+
+                Record record = new Record(name, price, type);
+
+                Intent intent = new Intent();
+                intent.putExtra("record", record);
+
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
     }

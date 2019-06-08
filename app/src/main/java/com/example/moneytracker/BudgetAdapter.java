@@ -19,6 +19,11 @@ class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.RecordViewHolder>
         notifyDataSetChanged();
     }
 
+    public void addItem(Record record) {
+        data.add(0, record);
+        notifyItemInserted(0);
+    }
+
     @NonNull
     @Override
     public RecordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
@@ -35,7 +40,6 @@ class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.RecordViewHolder>
 
     @Override
     public int getItemCount() {
-
         return data.size();
     }
 
@@ -52,7 +56,7 @@ class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.RecordViewHolder>
 
         void applyData(Record record) {
             name.setText(record.getName());
-            price.setText(String.valueOf(record.getPrice()));
+            price.setText(record.getPrice());
         }
     }
 
