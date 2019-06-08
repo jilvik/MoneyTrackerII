@@ -8,9 +8,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class MainAdapter extends FragmentPagerAdapter {
 
-    private static final int PAGE_INCOMES = 0;
-    private static final int PAGE_EXPENSES = 1;
-    private static final int PAGE_BALANCE = 2;
+    static final int PAGE_INCOMES = 0;
+    static final int PAGE_EXPENSES = 1;
+    static final int PAGE_BALANCE = 2;
 
     private String[] titles;
 
@@ -30,7 +30,7 @@ public class MainAdapter extends FragmentPagerAdapter {
                 return BudgetFragment.createBudgetFragment(Record.TYPE_EXPENSE);
 
             case PAGE_BALANCE:
-                return BudgetFragment.createBudgetFragment(Record.TYPE_BUDGET);
+                return new BalanceFragment();
 
             default:
                 return null;

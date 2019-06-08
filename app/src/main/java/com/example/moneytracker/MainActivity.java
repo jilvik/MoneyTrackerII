@@ -1,15 +1,22 @@
 package com.example.moneytracker;
 
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+import static com.example.moneytracker.BudgetFragment.ADD_ITEM_REQUEST_CODE;
 
-    private ViewPager pager;
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
+
     private TabLayout tabLayout;
+    private ViewPager pager;
+    private FloatingActionButton floatButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +32,68 @@ public class MainActivity extends AppCompatActivity {
 
         MainAdapter adapter = new MainAdapter(getSupportFragmentManager(), this);
         pager.setAdapter(adapter);
+        pager.addOnPageChangeListener(this);
 
         tabLayout.setupWithViewPager(pager);
+
+        floatButton = findViewById(R.id.fab);
+        floatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int currentPage = pager.getCurrentItem();
+                String type = null;
+
+                if (currentPage == MainAdapter.PAGE_INCOMES) {
+                    type = Record.TYPE_INCOME;
+                } else if (currentPage == MainAdapter.PAGE_EXPENSES) {
+                    type = Record.TYPE_EXPENSE;
+                }
+
+                Intent intent = new Intent(MainActivity.this, AddItemActivity.class);
+                intent.putExtra(AddItemActivity.TYPE_KEY, type);
+                startActivityForResult(intent, ADD_ITEM_REQUEST_CODE);
+            }
+        });
+    }
+
+    @Override
+    public void onPageScrolled(int i, float v, int i1) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        switch (position) {
+            case MainAdapter.PAGE_INCOMES:
+            case MainAdapter.PAGE_EXPENSES:
+                floatButton.show();
+                break;
+            case MainAdapter.PAGE_BALANCE:
+                floatButton.hide();
+                break;
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+        switch (i) {
+            case ViewPager.SCROLL_STATE_IDLE:
+                floatButton.setEnabled(true);
+                break;
+            case ViewPager.SCROLL_STATE_DRAGGING:
+            case ViewPager.SCROLL_STATE_SETTLING:
+                floatButton.setEnabled(false);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +23,7 @@ import java.util.List;
 public class BudgetFragment extends Fragment {
 
     private static final String TYPE_KEY = "type";
-    private static final int ADD_ITEM_REQUEST_CODE = 123;
+    static final int ADD_ITEM_REQUEST_CODE = 123;
     private BudgetAdapter adapter;
     private Api api;
     private String type;
@@ -71,20 +69,10 @@ public class BudgetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recycler = view.findViewById(R.id.list);
-        FloatingActionButton fab = view.findViewById(R.id.fab);
         refresh = view.findViewById(R.id.refresh);
 
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setAdapter(adapter);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AddItemActivity.class);
-                intent.putExtra(AddItemActivity.TYPE_KEY, type);
-                startActivityForResult(intent, ADD_ITEM_REQUEST_CODE);
-            }
-        });
-
 
         refresh.setColorSchemeColors(Color.BLUE, Color.CYAN, Color.GREEN);
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -101,7 +89,9 @@ public class BudgetFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_ITEM_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Record record = data.getParcelableExtra("record");
-            adapter.addItem(record);
+            if (record.getType().equals(type)) {
+                adapter.addItem(record);
+            }
         }
 
         super.onActivityResult(requestCode, resultCode, data);
