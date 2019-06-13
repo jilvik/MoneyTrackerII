@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -60,20 +59,17 @@ public class AddItemActivity extends AppCompatActivity {
         /*
           Get value from "name" and "price" fields after click button
          */
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = newName.getText().toString();
-                String price = newPrice.getText().toString();
+        addButton.setOnClickListener(v -> {
+            String name = newName.getText().toString();
+            String price = newPrice.getText().toString();
 
-                Record record = new Record(name, price, type);
+            Record record = new Record(name, price, type);
 
-                Intent intent = new Intent();
-                intent.putExtra("record", record);
+            Intent intent = new Intent();
+            intent.putExtra("record", record);
 
-                setResult(RESULT_OK, intent);
-                finish();
-            }
+            setResult(RESULT_OK, intent);
+            finish();
         });
     }
 }

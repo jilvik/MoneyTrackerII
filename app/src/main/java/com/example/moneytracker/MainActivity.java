@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import static com.example.moneytracker.BudgetFragment.ADD_ITEM_REQUEST_CODE;
 
@@ -37,23 +36,20 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         tabLayout.setupWithViewPager(pager);
 
         floatButton = findViewById(R.id.fab);
-        floatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        floatButton.setOnClickListener(v -> {
 
-                int currentPage = pager.getCurrentItem();
-                String type = null;
+            int currentPage = pager.getCurrentItem();
+            String type = null;
 
-                if (currentPage == MainAdapter.PAGE_INCOMES) {
-                    type = Record.TYPE_INCOME;
-                } else if (currentPage == MainAdapter.PAGE_EXPENSES) {
-                    type = Record.TYPE_EXPENSE;
-                }
-
-                Intent intent = new Intent(MainActivity.this, AddItemActivity.class);
-                intent.putExtra(AddItemActivity.TYPE_KEY, type);
-                startActivityForResult(intent, ADD_ITEM_REQUEST_CODE);
+            if (currentPage == MainAdapter.PAGE_INCOMES) {
+                type = Record.TYPE_INCOME;
+            } else if (currentPage == MainAdapter.PAGE_EXPENSES) {
+                type = Record.TYPE_EXPENSE;
             }
+
+            Intent intent = new Intent(MainActivity.this, AddItemActivity.class);
+            intent.putExtra(AddItemActivity.TYPE_KEY, type);
+            startActivityForResult(intent, ADD_ITEM_REQUEST_CODE);
         });
     }
 
