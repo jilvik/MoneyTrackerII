@@ -1,4 +1,4 @@
-package com.example.moneytracker;
+package com.jambau.moneytracker;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,6 +26,7 @@ public class BudgetFragment extends Fragment {
     static final int ADD_ITEM_REQUEST_CODE = 123;
     private BudgetAdapter adapter;
     private Api api;
+    private App app;
     private String type;
     private SwipeRefreshLayout refresh;
 
@@ -53,7 +54,8 @@ public class BudgetFragment extends Fragment {
             throw new IllegalArgumentException("UNKNOWN TYPE!");
         }
 
-        api = ((App) getActivity().getApplication()).getApi();
+        app = (App) getActivity().getApplication();
+        api = app.getApi();
     }
 
     @Nullable
@@ -86,7 +88,7 @@ public class BudgetFragment extends Fragment {
         if (requestCode == ADD_ITEM_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Record record = data.getParcelableExtra("record");
             if (record.getType().equals(type)) {
-                adapter.addItem(record);
+                addItem(record);
             }
         }
 
@@ -94,7 +96,7 @@ public class BudgetFragment extends Fragment {
     }
 
     private void loadItems() {
-        Call<List<Record>> call = api.getItems(type);
+        Call<List<Record>> call = api.getItems(type, app.getAuthToken());
 
         call.enqueue(new Callback<List<Record>>() {
             @Override
@@ -107,6 +109,25 @@ public class BudgetFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Record>> call, Throwable t) {
                 refresh.setRefreshing(false);
+            }
+        });
+    }
+
+    private void addItem(final Record record) {
+        Call<AddItemResult> call = api.addItem(record.getPrice(), record.getName(), record.getType(), app.getAuthToken());
+
+        call.enqueue(new Callback<AddItemResult>() {
+            @Override
+            public void onResponse(Call<AddItemResult> call, Response<AddItemResult> response) {
+                AddItemResult result = response.body();
+                if (result.getStatus().equals("success")) {
+                    adapter.addItem(record);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddItemResult> call, Throwable t) {
+
             }
         });
     }

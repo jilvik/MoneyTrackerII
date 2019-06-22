@@ -1,4 +1,4 @@
-package com.example.moneytracker;
+package com.jambau.moneytracker;
 
 import android.os.Parcel;
 import android.os.Parcelable;

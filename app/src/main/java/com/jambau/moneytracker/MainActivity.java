@@ -1,4 +1,4 @@
-package com.example.moneytracker;
+package com.jambau.moneytracker;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-import static com.example.moneytracker.BudgetFragment.ADD_ITEM_REQUEST_CODE;
+import static com.jambau.moneytracker.BudgetFragment.ADD_ITEM_REQUEST_CODE;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
 
@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         pager = findViewById(R.id.pager);
         tabLayout = findViewById(R.id.tab_layout);
 
-        MainAdapter adapter = new MainAdapter(getSupportFragmentManager(), this);
-        pager.setAdapter(adapter);
         pager.addOnPageChangeListener(this);
 
         tabLayout.setupWithViewPager(pager);
@@ -51,6 +49,18 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             intent.putExtra(AddItemActivity.TYPE_KEY, type);
             startActivityForResult(intent, ADD_ITEM_REQUEST_CODE);
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (((App) getApplication()).isAuthorized()) {
+            initTabs();
+        } else {
+            Intent intent = new Intent(this, AuthActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -91,5 +101,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void initTabs() {
+        MainAdapter adapter = new MainAdapter(getSupportFragmentManager(), this);
+        pager.setAdapter(adapter);
     }
 }

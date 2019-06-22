@@ -1,4 +1,7 @@
 <resources>
+    <!-- Auth's strings-->
+    <string name="welcome_message">Your essential helper</string>
+
     <!-- Main's strings-->
     <string name="app_name">MoneyTracker</string>
     <string name="expenses">Expense</string>

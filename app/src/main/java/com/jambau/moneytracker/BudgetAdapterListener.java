@@ -1,4 +1,4 @@
-package com.example.moneytracker;
+package com.jambau.moneytracker;
 
 public interface BudgetAdapterListener {
     void onItemClick(Record record, int position);
