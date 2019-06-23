@@ -121,6 +121,7 @@ public class BudgetFragment extends Fragment {
             public void onResponse(Call<AddItemResult> call, Response<AddItemResult> response) {
                 AddItemResult result = response.body();
                 if (result.getStatus().equals("success")) {
+                    record.setId(result.getId());
                     adapter.addItem(record);
                 }
             }

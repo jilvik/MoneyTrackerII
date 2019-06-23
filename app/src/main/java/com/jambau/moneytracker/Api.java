@@ -20,4 +20,7 @@ public interface Api {
                                 @Query("name") String name,
                                 @Query("type") String type,
                                 @Query("auth-token") String token);
+
+    @GET("balance")
+    Call<BalanceResult> balance();
 }

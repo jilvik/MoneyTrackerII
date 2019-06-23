@@ -3,9 +3,11 @@ package com.jambau.moneytracker;
 import android.os.Parcel;
 import android.os.Parcelable;
 import lombok.Getter;
+import lombok.Setter;
 
 
 @Getter
+@Setter
 class Record implements Parcelable {
 
     public static final String TYPE_UNKNOWN = "unknown";

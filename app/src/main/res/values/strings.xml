@@ -19,6 +19,14 @@
     <string name="tab_expense">Expense</string>
     <string name="tab_balance">Balance</string>
 
+    <string name="balance_total">Your balance</string>
+    <string name="balance_expense">Expense</string>
+    <string name="balance_income">Income</string>
+
+    <string name="price">%1$d \u20bd</string>
+
+
+
     <string-array name="tab_title">
         <item>@string/tab_income</item>
         <item>@string/tab_expense</item>
